@@ -94,9 +94,13 @@ void controle_leds(char tecla) {
 // Função para controlar o buzzer
 void controle_buzzer(char tecla) {
     if (tecla == TECLA_HASH) {
-        gpio_put(BUZZER_PIN, 1);  // Liga o buzzer
-        sleep_ms(1000);             // Buzzer ligado por 1s
-        gpio_put(BUZZER_PIN, 0);  // Desliga o buzzer
+        // Gera um som no buzzer ligando e desligando o pino rapidamente
+        for (int i = 0; i < 1000; i++) {  // Repete o som por 1 segundo (aproximadamente)
+            gpio_put(BUZZER_PIN, 1);  // Liga o buzzer
+            sleep_us(500);  // Aguarda 500 microssegundos
+            gpio_put(BUZZER_PIN, 0);  // Desliga o buzzer
+            sleep_us(500);  // Aguarda 500 microssegundos
+        }
     } else if (tecla == TECLA_ESTRELA) {
         // Desliga tudo (LEDs e buzzer)
         gpio_put(LED_VERDE_PIN, 0);
@@ -105,6 +109,7 @@ void controle_buzzer(char tecla) {
         gpio_put(BUZZER_PIN, 0);
     }
 }
+
 
 int main() {
     // Configura os pinos dos LEDs e do buzzer como saída
